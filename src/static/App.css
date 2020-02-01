@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+/* TextBox Component */
+
+.text__container {
+  padding: 10px;
+}
+
+.text__bar{
+  padding: 5px;
+  height: 30px;
+  position: relative;
+  left: 0;
+  outline: none;
+  border: 1px solid #cdcdcd;
+  border-color: black;
+  background-color: white;
+  font-size: 16px;
+  color: black;
+  border-radius: 5px;
+}
