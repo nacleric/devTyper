@@ -9,6 +9,7 @@ import "./static/App.css";
 function App() {
   return (
     <div className="App">
+      <h1 class="logo"> DevTyper (NotDone) </h1>
       <TextBody />
     </div>
   );

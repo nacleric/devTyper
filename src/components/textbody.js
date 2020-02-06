@@ -14,24 +14,24 @@ function newSpan(parent, cssClass, char) {
   parent.appendChild(childEl);
 }
 
-const renderSpans = string => {
-  // Todo: In memory
-  const parentEl = document.getElementById("titleEl");
+function renderSpans(string) {
+  const parentEl = document.getElementById("typeBody");
   for (let i = 0; i < string.length; i++) {
-    newSpan(parentEl, "testStyle", string[i]);
+    newSpan(parentEl, "neutralChar", string[i]);
   }
-};
+}
+
+function strip(html) {
+  // Converts json Obj to a string
+  let doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
 
 // Main Component
 function TextBody() {
   const [title, setTitle] = useState();
   const [text, setText] = useState(); // will be used later when everything works
-
-  function strip(html) {
-    // Converts json Obj to a string
-    let doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent || "";
-  }
+  const [link, setLink] = useState();
 
   useEffect(() => {
     function grabData() {
@@ -46,7 +46,14 @@ function TextBody() {
           const mText = strip(json.body_html);
           setTitle(mTitle);
           setText(mText);
+          setLink(json.url);
           renderSpans(mTitle);
+          // renderSpans(mText) // TODO: Uncomment this when done
+        })
+        .catch(err => {
+          console.log(err);
+          setTitle("You have no internet");
+          renderSpans("You have no internet");
         });
     }
     grabData();
@@ -55,11 +62,24 @@ function TextBody() {
   // VanillaJS regular objects [TESTING]
   // TODO: Grab an array of the Element and compare it to textRecord
   const textRecord = event => {
+    let childNodes = document.getElementById("typeBody").childNodes;
     let value = event.target.value;
-    let length = value.length;
+    let index = value.length - 1;
     let errorCount = 0;
     console.log(`Value: ${value}`);
-    console.log(`Length: ${length}`);
+    console.log(`Length: ${index}`);
+
+    if (value[index] === childNodes[index].innerHTML) {
+      console.log("correct");
+      console.log(`Expected Letter: ${childNodes[index].innerHTML}`);
+      childNodes[index].className = "correctChar";
+      // console.log(childNodes);
+    } else if (value[index] !== childNodes[index].innerHTML) {
+      console.log("wrong");
+      childNodes[index].className = "wrongChar";
+    } else {
+      console.log("else");
+    }
   };
 
   // React specific code
@@ -77,10 +97,12 @@ function TextBody() {
 
   return (
     <div>
-      <h1> DevTyper </h1>
-      <h3>Title: {title}</h3>
-      <div id="titleEl"></div>
-      {/* <div id="titleEl">Title: {title}</div> */}
+      <a target="_blank" class="article-link" href={link}>
+        Title: {title}
+      </a>
+
+      <div class="padtop typeBodyStyle" id="typeBody"></div>
+      {/* <div id="typeBody">Title: {title}</div> */}
       {/* <p>Text: {text}</p> */}
       <input
         onChange={textRecord}
