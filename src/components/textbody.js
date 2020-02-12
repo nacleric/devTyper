@@ -82,19 +82,6 @@ function TextBody() {
     }
   };
 
-  // React specific code
-  // const textRecord = event => {
-  //   const value = event.target.value;
-
-  //   console.log(title);
-  //   if (value !== title) {
-  //     console.log("wrong");
-  //   } else {
-  //     console.log("correct");
-  //   }
-  //   console.log(value);
-  // };
-
   return (
     <div>
       <a target="_blank" class="article-link" href={link}>
@@ -105,10 +92,10 @@ function TextBody() {
       {/* <div id="typeBody">Title: {title}</div> */}
       {/* <p>Text: {text}</p> */}
       <input
+        className="typeHereStyle"
         onChange={textRecord}
-        className="text__bar"
         type="text"
-        id="message"
+        id="typeHere"
       ></input>
     </div>
   );

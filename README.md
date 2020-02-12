@@ -1,6 +1,8 @@
 # TODO:
 x Events that trigger style changes to each character (buggy)
 - Find a good font theme (Roboto Mono, Monospaced)
+- Create Timer counting down from 60 seconds
+- Create a tracker for number of errors
 
 # Later's:
 - login/logout
