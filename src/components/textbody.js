@@ -18,13 +18,16 @@ function renderSpans(string) {
   const parentEl = document.getElementById("typeBody");
   for (let i = 0; i < string.length; i++) {
     newSpan(parentEl, "neutralChar", string[i]);
+    //console.log(string[i])
   }
 }
 
 function strip(html) {
   // Converts json Obj to a string
   let doc = new DOMParser().parseFromString(html, "text/html");
-  return doc.body.textContent || "";
+  let str = doc.body.textContent || "";
+  str = str.replace(/\s+/g, " "); // Removes Extra Spaces
+  return str.trim();
 }
 
 // Main Component
@@ -47,8 +50,8 @@ function TextBody() {
           setTitle(mTitle);
           setText(mText);
           setLink(json.url);
-          renderSpans(mTitle);
-          // renderSpans(mText) // TODO: Uncomment this when done
+          //renderSpans(mTitle);
+          renderSpans(mText) // TODO: Uncomment this when done
         })
         .catch(err => {
           console.log(err);
@@ -68,10 +71,10 @@ function TextBody() {
     let errorCount = 0;
     console.log(`Value: ${value}`);
     console.log(`Length: ${index}`);
+    console.log(`Expected Letter: ${childNodes[index].innerHTML}`);
 
     if (value[index] === childNodes[index].innerHTML) {
       console.log("correct");
-      console.log(`Expected Letter: ${childNodes[index].innerHTML}`);
       childNodes[index].className = "correctChar";
       // console.log(childNodes);
     } else if (value[index] !== childNodes[index].innerHTML) {
@@ -89,8 +92,6 @@ function TextBody() {
       </a>
 
       <div class="padtop typeBodyStyle" id="typeBody"></div>
-      {/* <div id="typeBody">Title: {title}</div> */}
-      {/* <p>Text: {text}</p> */}
       <input
         className="typeHereStyle"
         onChange={textRecord}

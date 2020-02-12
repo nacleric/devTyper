@@ -1,8 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
 
-import Count from "./components/count.js";
-import TextBody from "./components/textbody.js";
 import StartPage  from "./components/startpage.js";
 
 import "./static/App.css";

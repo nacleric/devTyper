@@ -1,6 +1,5 @@
 # TODO:
-x Events that trigger style changes to each character (buggy)
-- Find a good font theme (Roboto Mono, Monospaced)
+- Events that trigger style changes to each character (buggy)
 - Create Timer counting down from 60 seconds
 - Create a tracker for number of errors
 
@@ -22,4 +21,5 @@ export default Person;
 
 
 # Done
-x Render span elements for each individual character
+- Render span elements for each individual character
+- Find a good font theme (Roboto Mono, Monospaced)
