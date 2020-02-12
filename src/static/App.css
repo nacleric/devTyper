@@ -2,16 +2,25 @@
   text-align: center;
 }
 
-/* Helpers */
-.padtop {
-  padding-top: 30px;
+/* Atomic Helpers */
+.pad {
+  padding-top: 20px;
+  padding-bottom:20px;
+}
+
+.flex-container {
+  display: flex;
 }
 
 /* TextBox Component */
-
 .logo {
   font-size: 4rem;
   color: var(--purple);
+}
+
+.intro {
+  color: var(--yellow);
+  font-size: 1.5rem;
 }
 
 .article-link {
@@ -24,6 +33,24 @@
 .typeBodyStyle {
   font-size: 1.2rem;
   font-weight: 550;
+  height: 300px;
+  width: auto;
+  overflow: auto;
+}
+
+.box {
+  width: 70px;
+  height: 70px;
+  border: 5px solid var(--grey);
+  padding: 20px;
+  /*margin: 20px;*/
+  display: inline-block;
+}
+
+.box-title{
+  color: var(--grey);
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .typeHereStyle{

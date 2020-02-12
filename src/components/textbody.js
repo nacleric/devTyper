@@ -90,14 +90,25 @@ function TextBody() {
       <a target="_blank" class="article-link" href={link}>
         Title: {title}
       </a>
+    
+    <div className="typeBodyStyle pad" id="typeBody"></div>
 
-      <div class="padtop typeBodyStyle" id="typeBody"></div>
       <input
         className="typeHereStyle"
         onChange={textRecord}
         type="text"
         id="typeHere"
       ></input>
+      
+      <div className="display-flex pad">
+        <div className="box">
+          <span className="box-title">Timer</span>
+          </div>
+        <div className="box">
+          <span className="box-title">Score</span>
+        </div>
+      </div>
+
     </div>
   );
 }
