@@ -31,12 +31,18 @@ function strip(html) {
 }
 
 function startTimer() {
-  let el = document.getElementById("timer");
+  let timerEl = document.getElementById("timer");
+
+  // UI stuff
+  let typerEl = document.getElementById("typeHere");
+  typerEl.readOnly = false;
+  typerEl.placeholder = "";
+
   let timeLeft = 30;
   let countdown = setInterval(() => {
     if (timeLeft != 0) {
       timeLeft -= 1;
-      el.innerHTML = timeLeft;
+      timerEl.innerHTML = timeLeft;
     } else {
       console.log("run something here");
       console.log(calculateResults());
@@ -50,14 +56,19 @@ function calculateResults() {
   let childNodesArr = document.getElementById("typeBody").childNodes;
   let errors = 0;
   let correct = 0;
+  let total = 0;
   for (let i = 0; i < childNodesArr.length; i++) {
     if (childNodesArr[i].className === "wrongChar") {
       errors += 1;
+      total += 1;
     } else if (childNodesArr[i].className === "correctChar") {
       correct += 1;
+      total += 1;
     }
   }
-  return errors;
+  let wpm = correct;
+  let accuracy = correct/total
+  return {wpm: wpm, accuracy: accuracy};
 }
 
 // Main Component
@@ -125,6 +136,8 @@ function TextBody() {
         onChange={textRecord}
         type="text"
         id="typeHere"
+        readonly="true"
+        placeholder="Locked"
       ></input>
       <button onClick={startTimer}>Start Test</button>
 

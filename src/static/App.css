@@ -66,11 +66,10 @@
   position: relative;
   left: 0;
   outline: none;
-  border: 1px solid #cdcdcd;
-  border-color: black;
-  background-color: white;
+  border: 3px solid var(--grey);
+  background-color: var(--background);
   font-size: 16px;
-  color: black;
+  color: var(--grey);
   border-radius: 5px;
 }
 
