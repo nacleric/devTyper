@@ -8,14 +8,14 @@ function newSpan(parent, cssClass, char) {
 
      Creates each individual span object for each character
   */
-  const childEl = document.createElement("span");
+  let childEl = document.createElement("span");
   childEl.className = cssClass;
   childEl.innerHTML = char;
   parent.appendChild(childEl);
 }
 
 function renderSpans(string) {
-  const parentEl = document.getElementById("typeBody");
+  let parentEl = document.getElementById("typeBody");
   for (let i = 0; i < string.length; i++) {
     newSpan(parentEl, "neutralChar", string[i]);
     //console.log(string[i])
@@ -28,6 +28,36 @@ function strip(html) {
   let str = doc.body.textContent || "";
   str = str.replace(/\s+/g, " "); // Removes Extra Spaces
   return str.trim();
+}
+
+function startTimer() {
+  let el = document.getElementById("timer");
+  let timeLeft = 30;
+  let countdown = setInterval(() => {
+    if (timeLeft != 0) {
+      timeLeft -= 1;
+      el.innerHTML = timeLeft;
+    } else {
+      console.log("run something here");
+      console.log(calculateResults());
+      clearInterval(countdown);
+    }
+  }, 1000);
+}
+
+//TODO: finish this
+function calculateResults() {
+  let childNodesArr = document.getElementById("typeBody").childNodes;
+  let errors = 0;
+  let correct = 0;
+  for (let i = 0; i < childNodesArr.length; i++) {
+    if (childNodesArr[i].className === "wrongChar") {
+      errors += 1;
+    } else if (childNodesArr[i].className === "correctChar") {
+      correct += 1;
+    }
+  }
+  return errors;
 }
 
 // Main Component
@@ -50,8 +80,7 @@ function TextBody() {
           setTitle(mTitle);
           setText(mText);
           setLink(json.url);
-          //renderSpans(mTitle);
-          renderSpans(mText) // TODO: Uncomment this when done
+          renderSpans(mText);
         })
         .catch(err => {
           console.log(err);
@@ -62,8 +91,6 @@ function TextBody() {
     grabData();
   }, []);
 
-  // VanillaJS regular objects [TESTING]
-  // TODO: Grab an array of the Element and compare it to textRecord
   const textRecord = event => {
     let childNodes = document.getElementById("typeBody").childNodes;
     let value = event.target.value;
@@ -87,11 +114,11 @@ function TextBody() {
 
   return (
     <div>
-      <a target="_blank" class="article-link" href={link}>
+      <a target="_blank" className="article-link" href={link}>
         Title: {title}
       </a>
-    
-    <div className="typeBodyStyle pad" id="typeBody"></div>
+
+      <div className="typeBodyStyle pad" id="typeBody"></div>
 
       <input
         className="typeHereStyle"
@@ -99,16 +126,14 @@ function TextBody() {
         type="text"
         id="typeHere"
       ></input>
-      
-      <div className="display-flex pad">
-        <div className="box">
-          <span className="box-title">Timer</span>
-          </div>
-        <div className="box">
-          <span className="box-title">Score</span>
-        </div>
-      </div>
+      <button onClick={startTimer}>Start Test</button>
 
+      <div className="pad">
+        <span className="timer-score-label">Timer:</span>
+        <span id="timer">30</span>
+        <span className="timer-score-label">Score:</span>
+        <span id="score"></span>
+      </div>
     </div>
   );
 }

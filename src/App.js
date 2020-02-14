@@ -7,7 +7,7 @@ import "./static/App.css";
 function App() {
   return (
     <div className="App">
-      <h1 className="logo"> DevTyper (NotDone) </h1>
+      <h1 className="logo">DevTyper</h1>
       <StartPage />
     </div>
   );

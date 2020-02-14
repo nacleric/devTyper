@@ -15,8 +15,10 @@ function StartPage() {
         <TextBody />
       ) : (
         <div>
-          <h1 className="intro">DevTyper is a generic typing test thats probably worse, but we
-          promote dev content so thats a plus, Click start to... uh start!</h1>
+          <h1 className="intro">
+            DevTyper is a generic typing test thats probably worse, but we
+            promote dev content so thats a plus, Click start to... uh start!
+          </h1>
           <button onClick={renderTypeTest} className="startButton">
             Start
           </button>

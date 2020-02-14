@@ -12,6 +12,10 @@
   display: flex;
 }
 
+.flex-vertical {
+  flex-direction: column;
+}
+
 /* TextBox Component */
 .logo {
   font-size: 2.8rem;
@@ -38,19 +42,22 @@
   overflow: auto;
 }
 
-.box {
-  width: 70px;
-  height: 70px;
-  border: 5px solid var(--grey);
-  padding: 20px;
-  /*margin: 20px;*/
-  display: inline-block;
-}
-
-.box-title{
+.timer-score-label {
   color: var(--grey);
   font-weight: bold;
   text-decoration: underline;
+}
+
+#timer {
+  color: var(--yellow);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#score {
+  color: var(--yellow);
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .typeHereStyle{
