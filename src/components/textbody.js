@@ -18,7 +18,6 @@ function renderSpans(string) {
   let parentEl = document.getElementById("typeBody");
   for (let i = 0; i < string.length; i++) {
     newSpan(parentEl, "neutralChar", string[i]);
-    //console.log(string[i])
   }
 }
 
@@ -30,25 +29,20 @@ function strip(html) {
   return str.trim();
 }
 
-function startTimer() {
-  let timerEl = document.getElementById("timer");
+function isLocked(lock) {
+  /* lock: bool
 
-  // UI stuff
-  let typerEl = document.getElementById("typeHere");
-  typerEl.readOnly = false;
-  typerEl.placeholder = "";
-
-  let timeLeft = 30;
-  let countdown = setInterval(() => {
-    if (timeLeft != 0) {
-      timeLeft -= 1;
-      timerEl.innerHTML = timeLeft;
-    } else {
-      console.log("run something here");
-      console.log(calculateResults());
-      clearInterval(countdown);
-    }
-  }, 1000);
+     Controls when user is unable to type in the "typeHere" DOM element
+  */
+  let typerEl = document.getElementById("typeHere"); 
+  if (lock == true) {
+    typerEl.readOnly = true;
+    typerEl.value = "";
+    typerEl.placeholder = "Locked";
+  } else {
+    typerEl.readOnly = false;
+    typerEl.placeholder = "";
+  }
 }
 
 //TODO: finish this
@@ -66,15 +60,35 @@ function calculateResults() {
       total += 1;
     }
   }
-  let wpm = correct;
   let accuracy = correct/total
-  return {wpm: wpm, accuracy: accuracy};
+  return {wpm: correct, accuracy: accuracy};
+}
+
+// Technically the main game Loop
+function startTimer() {
+  let timerEl = document.getElementById("timer");
+  isLocked(false)
+  // TODO: Change this back to 60 when done
+  let timeLeft = 5;
+  let countdown = setInterval(() => {
+    if (timeLeft != 0) {
+      timeLeft -= 1;
+      timerEl.innerHTML = timeLeft;
+    } else {
+      // [testing] results
+      console.log("run something here");
+      console.log(calculateResults());
+
+      clearInterval(countdown);
+      isLocked(true)
+    }
+  }, 1000);
 }
 
 // Main Component
 function TextBody() {
   const [title, setTitle] = useState();
-  const [text, setText] = useState(); // will be used later when everything works
+  const [text, setText] = useState();
   const [link, setLink] = useState();
 
   useEffect(() => {
@@ -119,7 +133,8 @@ function TextBody() {
       console.log("wrong");
       childNodes[index].className = "wrongChar";
     } else {
-      console.log("else");
+      // TODO: placeholder currently will eventually render deletes
+      console.log("in the else block");
     }
   };
 
@@ -144,8 +159,6 @@ function TextBody() {
       <div className="pad">
         <span className="timer-score-label">Timer:</span>
         <span id="timer">30</span>
-        <span className="timer-score-label">Score:</span>
-        <span id="score"></span>
       </div>
     </div>
   );
