@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import SubmitPage from "./submitpage.js"
+
 import "../static/App.css";
 
 // Helper Functions
@@ -47,6 +49,7 @@ function isLocked(lock) {
 
 //TODO: finish this
 function calculateResults() {
+  // returns obj
   let childNodesArr = document.getElementById("typeBody").childNodes;
   let errors = 0;
   let correct = 0;
@@ -60,36 +63,20 @@ function calculateResults() {
       total += 1;
     }
   }
+  let wpm = correct/4.7
   let accuracy = correct/total
-  return {wpm: correct, accuracy: accuracy};
+  return {wpm: wpm, accuracy: accuracy};
 }
 
-// Technically the main game Loop
-function startTimer() {
-  let timerEl = document.getElementById("timer");
-  isLocked(false)
-  // TODO: Change this back to 60 when done
-  let timeLeft = 5;
-  let countdown = setInterval(() => {
-    if (timeLeft != 0) {
-      timeLeft -= 1;
-      timerEl.innerHTML = timeLeft;
-    } else {
-      // [testing] results
-      console.log("run something here");
-      console.log(calculateResults());
-
-      clearInterval(countdown);
-      isLocked(true)
-    }
-  }, 1000);
-}
+const TypingScoreContext = React.createContext({});
 
 // Main Component
 function TextBody() {
   const [title, setTitle] = useState();
   const [text, setText] = useState();
   const [link, setLink] = useState();
+  const [score, setScore] = useState();
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
     function grabData() {
@@ -128,7 +115,6 @@ function TextBody() {
     if (value[index] === childNodes[index].innerHTML) {
       console.log("correct");
       childNodes[index].className = "correctChar";
-      // console.log(childNodes);
     } else if (value[index] !== childNodes[index].innerHTML) {
       console.log("wrong");
       childNodes[index].className = "wrongChar";
@@ -138,30 +124,63 @@ function TextBody() {
     }
   };
 
+  // Technically the main game Loop
+  function startTimer() {
+    let timerEl = document.getElementById("timer");
+    isLocked(false)
+    // TODO: Change this back to 60 when done
+    let timeLeft = 60;
+    let countdown = setInterval(() => {
+      if (timeLeft != 0) {
+        timeLeft -= 1;
+        timerEl.innerHTML = timeLeft;
+      } else {
+        // [testing] Renders results TODO: Remove Later
+        console.log("run something here");
+        console.log(calculateResults());
+
+        setScore(calculateResults());
+       
+        clearInterval(countdown);
+        isLocked(true)
+        // renders the next component
+        setSubmit(true)
+      }
+    }, 1000);
+  } 
+
   return (
     <div>
       <a target="_blank" className="article-link" href={link}>
         Title: {title}
       </a>
+      
+      {submit ? (
+        <TypingScoreContext.Provider value={score}>
+          <SubmitPage />
+        </TypingScoreContext.Provider>
+      ) : (
+        <React.Fragment>
+          <div className="typeBodyStyle pad" id="typeBody"></div>
+          <input
+            className="typeHereStyle"
+            onChange={textRecord}
+            type="text"
+            id="typeHere"
+            readonly="true"
+            placeholder="Locked"
+          ></input>
+          <button onClick={startTimer}>Start Test</button>
 
-      <div className="typeBodyStyle pad" id="typeBody"></div>
-
-      <input
-        className="typeHereStyle"
-        onChange={textRecord}
-        type="text"
-        id="typeHere"
-        readonly="true"
-        placeholder="Locked"
-      ></input>
-      <button onClick={startTimer}>Start Test</button>
-
-      <div className="pad">
-        <span className="timer-score-label">Timer:</span>
-        <span id="timer">30</span>
-      </div>
+          <div className="pad">
+            <span className="timer-score-label">Timer:</span>
+            <span id="timer">60</span>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 }
 
 export default TextBody;
+export { TypingScoreContext };

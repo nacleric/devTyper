@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 
+import { TypingScoreContext } from "./textbody.js";
+
 function SubmitPage() {
   return (
     <div>
-      <h1> submit page </h1>
-
-      <div> 
-        WPM: <span id="wpm"> placeholder </span>
-      </div>
-
-      <div> 
-        Accuracy: <span id="accuracy"> placeholder </span>
-      </div>
-
+      <h1> Score: </h1>
+      
+      <TypingScoreContext.Consumer>
+        {context => {
+          return (
+            <React.Fragment>
+              <div>
+                WPM: <span id="wpm"> {context.wpm} </span>
+              </div>
+              <div> 
+                Accuracy: <span id="accuracy"> {context.accuracy} </span>
+              </div>
+            </React.Fragment>
+          )
+        }}
+      </TypingScoreContext.Consumer>
     </div>
   );
 }
 
-export default Count;
+export default SubmitPage;
