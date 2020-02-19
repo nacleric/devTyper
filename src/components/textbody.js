@@ -68,6 +68,26 @@ function calculateResults() {
   return {wpm: wpm, accuracy: accuracy};
 }
 
+const randomDevPost = () => {
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+  let randomNumber = getRandomInt(0, 30)
+  let url = "https://dev.to/api/articles/"
+  let yeet = {}
+  fetch(url) 
+    .then(res => {
+      return res.json();
+    })
+    .then(json => {
+      let id = json[randomNumber].id;
+      yeet.id = id
+    })
+  return yeet.id
+}
+
 const TypingScoreContext = React.createContext({});
 
 // Main Component
@@ -79,8 +99,9 @@ function TextBody() {
   const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
+    console.log(randomDevPost())
     function grabData() {
-      fetch("https://dev.to/api/articles/150402")
+      fetch("https://dev.to/api/articles/257886")
         .then(res => {
           // Turns the response object to json
           return res.json();
@@ -129,7 +150,7 @@ function TextBody() {
     let timerEl = document.getElementById("timer");
     isLocked(false)
     // TODO: Change this back to 60 when done
-    let timeLeft = 60;
+    let timeLeft = 15;
     let countdown = setInterval(() => {
       if (timeLeft != 0) {
         timeLeft -= 1;
@@ -167,7 +188,7 @@ function TextBody() {
             onChange={textRecord}
             type="text"
             id="typeHere"
-            readonly="true"
+            readOnly="true"
             placeholder="Locked"
           ></input>
           <button onClick={startTimer}>Start Test</button>

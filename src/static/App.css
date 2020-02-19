@@ -84,3 +84,18 @@
 .wrongChar {
   color: var(--error);
 }
+
+/* Submit page */
+.submit__title {
+  font-size: 2.2rem;
+  color: var(--blue);
+}
+
+.submit__container {
+  font-size: 2rem;
+  color: var(--grey);
+}
+
+.submit__results {
+  color: var(--yellow) !important;
+}
