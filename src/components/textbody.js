@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import SubmitPage from "./submitpage.js"
+import SubmitPage from "./submitpage.js";
 
 import "../static/App.css";
 
@@ -36,7 +36,7 @@ function isLocked(lock) {
 
      Controls when user is unable to type in the "typeHere" DOM element
   */
-  let typerEl = document.getElementById("typeHere"); 
+  let typerEl = document.getElementById("typeHere");
   if (lock == true) {
     typerEl.readOnly = true;
     typerEl.value = "";
@@ -47,7 +47,6 @@ function isLocked(lock) {
   }
 }
 
-//TODO: finish this
 function calculateResults() {
   // returns obj
   let childNodesArr = document.getElementById("typeBody").childNodes;
@@ -63,29 +62,30 @@ function calculateResults() {
       total += 1;
     }
   }
-  let wpm = correct/4.7
-  let accuracy = correct/total
-  return {wpm: wpm, accuracy: accuracy};
+  let wpm = correct / 4.7;
+  let accuracy = correct / total;
+  return { wpm: wpm.toFixed(2), accuracy: accuracy.toFixed(2) };
 }
 
-const randomDevPost = () => {
+function randomDevPost() {
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
-  let randomNumber = getRandomInt(0, 30)
-  let url = "https://dev.to/api/articles/"
-  let yeet = {}
-  fetch(url) 
+  let randomNumber = getRandomInt(0, 30);
+  let url = "https://dev.to/api/articles/";
+  fetch(url)
     .then(res => {
+      // Response is an Array
       return res.json();
     })
-    .then(json => {
-      let id = json[randomNumber].id;
-      yeet.id = id
-    })
-  return yeet.id
+    .then(jsonArr => {
+      console.log(jsonArr[randomNumber].id);
+      sessionStorage.setItem("id", jsonArr[randomNumber].id);
+    });
+  let id = sessionStorage.getItem("id");
+  return url + id;
 }
 
 const TypingScoreContext = React.createContext({});
@@ -99,9 +99,8 @@ function TextBody() {
   const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
-    console.log(randomDevPost())
     function grabData() {
-      fetch("https://dev.to/api/articles/257886")
+      fetch(randomDevPost())
         .then(res => {
           // Turns the response object to json
           return res.json();
@@ -148,7 +147,7 @@ function TextBody() {
   // Technically the main game Loop
   function startTimer() {
     let timerEl = document.getElementById("timer");
-    isLocked(false)
+    isLocked(false);
     // TODO: Change this back to 60 when done
     let timeLeft = 15;
     let countdown = setInterval(() => {
@@ -161,21 +160,21 @@ function TextBody() {
         console.log(calculateResults());
 
         setScore(calculateResults());
-       
+
         clearInterval(countdown);
-        isLocked(true)
+        isLocked(true);
         // renders the next component
-        setSubmit(true)
+        setSubmit(true);
       }
     }, 1000);
-  } 
+  }
 
   return (
     <div>
       <a target="_blank" className="article-link" href={link}>
         Title: {title}
       </a>
-      
+
       {submit ? (
         <TypingScoreContext.Provider value={score}>
           <SubmitPage />
