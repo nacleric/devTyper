@@ -11,8 +11,7 @@
 
 body {
   margin: 0;
-  font-family: 'Roboto Mono', 'Ubuntu Mono', 'Inconsolita'
-    sans-serif;
+  font-family: 'Roboto Mono', 'Ubuntu Mono', 'Inconsolita', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background);
