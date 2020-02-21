@@ -149,7 +149,7 @@ function TextBody() {
     let timerEl = document.getElementById("timer");
     isLocked(false);
     // TODO: Change this back to 60 when done
-    let timeLeft = 30;
+    let timeLeft = 60;
     let countdown = setInterval(() => {
       if (timeLeft != 0) {
         timeLeft -= 1;
