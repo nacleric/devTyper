@@ -16,8 +16,9 @@ function StartPage() {
       ) : (
         <div>
           <h1 className="intro">
-            DevTyper is a generic typing test thats probably worse, but we
-            promote dev content so thats a plus, Click start to... uh start!
+            Devtyper is a typing test game specifically meant to promote developer content.
+            Currently it picks out a recent blogpost from DEV.TO but eventually I'd like to
+            allow other devs to submit their content
           </h1>
           <button onClick={renderTypeTest} className="startButton">
             Start

@@ -128,9 +128,9 @@ function TextBody() {
     let value = event.target.value;
     let index = value.length - 1;
     let errorCount = 0;
-    console.log(`Value: ${value}`);
-    console.log(`Length: ${index}`);
-    console.log(`Expected Letter: ${childNodes[index].innerHTML}`);
+    //console.log(`Value: ${value}`);
+    //console.log(`Length: ${index}`);
+    //console.log(`Expected Letter: ${childNodes[index].innerHTML}`);
 
     if (value[index] === childNodes[index].innerHTML) {
       console.log("correct");
@@ -149,38 +149,34 @@ function TextBody() {
     let timerEl = document.getElementById("timer");
     isLocked(false);
     // TODO: Change this back to 60 when done
-    let timeLeft = 15;
+    let timeLeft = 30;
     let countdown = setInterval(() => {
       if (timeLeft != 0) {
         timeLeft -= 1;
         timerEl.innerHTML = timeLeft;
       } else {
-        // [testing] Renders results TODO: Remove Later
-        console.log("run something here");
-        console.log(calculateResults());
-
         setScore(calculateResults());
 
         clearInterval(countdown);
         isLocked(true);
         // renders the next component
         setSubmit(true);
+        localStorage.setItem(title, link)
       }
     }, 1000);
   }
 
   return (
     <div>
-      <a target="_blank" className="article-link" href={link}>
-        Title: {title}
-      </a>
-
       {submit ? (
         <TypingScoreContext.Provider value={score}>
           <SubmitPage />
         </TypingScoreContext.Provider>
       ) : (
         <React.Fragment>
+          <a target="_blank" className="article-link" href={link}>
+            Title: {title}
+          </a>
           <div className="typeBodyStyle pad" id="typeBody"></div>
           <input
             className="typeHereStyle"
