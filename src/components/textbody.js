@@ -67,7 +67,7 @@ function calculateResults() {
   return { wpm: wpm.toFixed(2), accuracy: accuracy.toFixed(2) };
 }
 
-function randomDevPost() {
+async function randomDevPost() {
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -75,16 +75,16 @@ function randomDevPost() {
   }
   let randomNumber = getRandomInt(0, 30);
   let url = "https://dev.to/api/articles/";
-  fetch(url)
+
+  const id = await fetch(url)
     .then(res => {
       // Response is an Array
       return res.json();
     })
     .then(jsonArr => {
-      console.log(jsonArr[randomNumber].id);
-      sessionStorage.setItem("id", jsonArr[randomNumber].id);
+      return jsonArr[randomNumber].id;
     });
-  let id = sessionStorage.getItem("id");
+
   return url + id;
 }
 
@@ -99,8 +99,9 @@ function TextBody() {
   const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
-    function grabData() {
-      fetch(randomDevPost())
+    async function grabData() {
+      const url = await randomDevPost();
+      fetch(url)
         .then(res => {
           // Turns the response object to json
           return res.json();
@@ -161,7 +162,7 @@ function TextBody() {
         isLocked(true);
         // renders the next component
         setSubmit(true);
-        localStorage.setItem(title, link)
+        localStorage.setItem(title, link);
       }
     }, 1000);
   }
